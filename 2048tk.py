@@ -20,7 +20,7 @@ class Game2048(tk.Frame):
 
         self.score_label = tk.Label(self, text="Score: 0", font=("Helvetica", 16))
         self.score_label.grid(row=5, column=0, columnspan=4)
-
+        self.score = 0
         self.new_game_button = tk.Button(self, text="New Game", command=self.new_game)
         self.new_game_button.grid(row=6, column=0, columnspan=4)
 
@@ -30,6 +30,7 @@ class Game2048(tk.Frame):
         self.update_score()
         self.spawn_tile()
         self.spawn_tile()
+        self.update_board()
 
     def spawn_tile(self):
         empty_cells = [(i, j) for i in range(4) for j in range(4) if self.board[i][j] == 0]
