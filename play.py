@@ -23,7 +23,7 @@ if __name__ == "__main__":
         else:
             print("Invalid action")
             continue
-        valid, state = env.perform_action(state, action)
+        valid, state, score = env.perform_action(state, action)
         env.render(state)
-        print("Scoring Function:", state.score)
+        print("Scoring Function:", score)
         print(valid)

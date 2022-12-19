@@ -4,7 +4,6 @@ class State():
     def __init__(self, environment, board):
         self.board = board
         self.environment = environment
-        self.score = 0
 
     def __eq__(self, other):
         return self.board == other.board
@@ -14,6 +13,3 @@ class State():
 
     def deepcopy(self):
         return State(self.environment, [row[:] for row in self.board])
-
-    def inc_score(self, score):
-        self.score += score
