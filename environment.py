@@ -28,13 +28,15 @@ class environment():
         Returns:
             _type_: _description_
         """
+        inc_score = 0
         deepcopy = state.deepcopy()
         if action == RIGHT:
             for row, _ in enumerate(state.board):
                 # Move all values to the right
                 _move_right(state.board[row])
                 # Merge values right
-                _merge_right(state.board[row])
+                score = _merge_right(state.board[row])
+                inc_score += score
                 # Move all values to the right
                 _move_right(state.board[row])
         elif action == LEFT:
@@ -42,7 +44,8 @@ class environment():
                 # Move all values to the left  
                 _move_left(state.board[row])
                 # Merge values left
-                _merge_left(state.board[row])
+                score = _merge_left(state.board[row])
+                inc_score += score
                 # Move all values to the left  
                 _move_left(state.board[row])
         elif action == UP:
@@ -52,7 +55,8 @@ class environment():
                 # Move all values to the left  
                 _move_left(state.board[row])
                 # Merge values left
-                _merge_left(state.board[row])
+                score = _merge_left(state.board[row])
+                inc_score += score
                 # Move all values to the left  
                 _move_left(state.board[row])
             # Transpose the board back
@@ -64,7 +68,8 @@ class environment():
                 # Move all values to the right
                 _move_right(state.board[row])
                 # Merge values right
-                _merge_right(state.board[row])
+                score = _merge_right(state.board[row])
+                inc_score += score
                 # Move all values to the right
                 _move_right(state.board[row])
             # Transpose the board back
@@ -72,6 +77,7 @@ class environment():
         else:
             raise Exception("Invalid action")
         new_state = State(self, state.board)
+        new_state.inc_score(inc_score)
         valid = deepcopy != new_state
         if valid:
             self.spawn_tile(state)
@@ -132,26 +138,34 @@ def _move_right(row):
 
 def _merge_left(row):
     """Merge values from right to left"""
+    inc_score = 0
     if row[0] == row[1]:
         row[0] *= 2
         row[1] = 0
+        inc_score += row[0] 
     if row[1] == row[2]:
         row[1] *= 2
         row[2] = 0
+        inc_score += row[1]
     if row[2] == row[3]:
         row[2] *= 2
         row[3] = 0
-    return row
+        inc_score += row[2]
+    return inc_score
 
 def _merge_right(row):
     """Merge values from left to right"""
+    inc_score = 0
     if row[2] == row[3]:
         row[3] *= 2
         row[2] = 0
+        inc_score += row[3] 
     if row[1] == row[2]:
         row[2] *= 2
         row[1] = 0
+        inc_score += row[2] 
     if row[0] == row[1]:
         row[1] *= 2
         row[0] = 0
-    return row
+        inc_score += row[1] 
+    return inc_score

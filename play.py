@@ -25,5 +25,5 @@ if __name__ == "__main__":
             continue
         valid, state = env.perform_action(state, action)
         env.render(state)
-        # print(state.score())
+        print("Scoring Function:", state.score)
         print(valid)
