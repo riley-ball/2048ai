@@ -6,9 +6,10 @@ if __name__ == "__main__":
     env = environment()
     state = env.get_init_state()
     env.render(state)
-    env.perform_action(state, RIGHT)
     print("------------------")
-    env.render(state)
+    # valid, state = env.perform_action(state, RIGHT)
+    # env.render(state)
+    # print(valid)
     while True:
         action = input("Enter action: ")
         if action == "d":
@@ -22,5 +23,6 @@ if __name__ == "__main__":
         else:
             print("Invalid action")
             continue
-        env.perform_action(state, action)
+        valid, state = env.perform_action(state, action)
         env.render(state)
+        print(valid)

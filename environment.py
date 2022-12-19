@@ -14,7 +14,19 @@ class environment():
         return self.init_state
 
     def perform_action(self, state, action):
-        """Perform an action on the board and return the new state"""
+        """Perform an action on the board and return the new state
+
+        Args:
+            state (State): State to perform action on
+            action (int): action to perform
+
+        Raises:
+            Exception: Invalid action
+
+        Returns:
+            _type_: _description_
+        """
+        deepcopy = state.deepcopy()
         if action == RIGHT:
             for row, _ in enumerate(state.board):
                 # Move all values to the right
@@ -23,6 +35,8 @@ class environment():
                 _merge_right(state.board[row])
                 # Move all values to the right
                 _move_right(state.board[row])
+                # Merge values right
+                _merge_right(state.board[row])
         elif action == LEFT:
             for row, _ in enumerate(state.board):
                 # Move all values to the left  
@@ -31,6 +45,8 @@ class environment():
                 _merge_left(state.board[row])
                 # Move all values to the left  
                 _move_left(state.board[row])
+                # Merge values left
+                _merge_left(state.board[row])
         elif action == UP:
             # Transpose the board
             state.board = _transpose_2d_list(state.board)
@@ -41,6 +57,8 @@ class environment():
                 _merge_left(state.board[row])
                 # Move all values to the left  
                 _move_left(state.board[row])
+                # Merge values left
+                _merge_left(state.board[row])
             # Transpose the board back
             state.board = _transpose_2d_list(state.board)
         elif action == DOWN:
@@ -53,15 +71,17 @@ class environment():
                 _merge_right(state.board[row])
                 # Move all values to the right
                 _move_right(state.board[row])
+                # Merge values right
+                _merge_right(state.board[row])
             # Transpose the board back
             state.board = _transpose_2d_list(state.board)
         else:
             raise Exception("Invalid action")
         self.spawn_tile(state)
-        return State(self, state.board)
+        new_state = State(self, state.board)
+        return (deepcopy != new_state, new_state)
 
     def is_solved(self, state):
-        
         for i in state.board:
             for j in state.board:
                 if j == 2048:
