@@ -26,34 +26,3 @@ if __name__ == "__main__":
             break
         score += mcts.state.score
         env.render(mcts.state)
-
-
-
-
-    # for i in states:
-    #     env.render(states[i])
-    #     print("-----")
-
-
-    # env.render(state)
-    # print("------------------")
-    # # valid, state = env.perform_action(state, RIGHT)
-    # # env.render(state)
-    # # print(valid)
-    # while True:
-    #     action = input("Enter action: ")
-    #     if action == "d":
-    #         action = RIGHT
-    #     elif action == "a":
-    #         action = LEFT
-    #     elif action == "w":
-    #         action = UP
-    #     elif action == "s":
-    #         action = DOWN
-    #     else:
-    #         print("Invalid action")
-    #         continue
-    #     valid, state, score = env.perform_action(state, action)
-    #     env.render(state)
-    #     print("Scoring Function:", score)
-    #     print(valid)

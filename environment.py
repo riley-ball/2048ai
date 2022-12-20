@@ -11,7 +11,6 @@ class Environment():
         random.seed(self.seed)
         self.spawn_tile(self.init_state, True)
         self.spawn_tile(self.init_state, True)
-        # self.board[0] = [2, 2, 2, 2]
 
     def get_init_state(self):
         return self.init_state
