@@ -9,17 +9,19 @@ if __name__ == "__main__":
     state = env.get_init_state()
     env.render(state)
     init_node = Node(state)
-    iterations = 1000
+    iterations = 100
     exploration = 0.5
     mcts = MCTS(env, init_node, iterations, exploration)
     env.render(mcts.state)
+    score = 0
     while True:
         mcts = MCTS(env, mcts, iterations, exploration)
         if env.is_terminal(mcts.state):
             env.render(mcts.state)
+            print("Score:", score)
             print("Game over")
             break
-        print(mcts.state.score)
+        score += mcts.state.score
         env.render(mcts.state)
 
 
