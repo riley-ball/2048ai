@@ -13,3 +13,11 @@ class State():
 
     def deepcopy(self):
         return State(self.environment, [row[:] for row in self.board])
+
+    def get_successors(self):
+        successors = []
+        for action in [UP, DOWN, LEFT, RIGHT]:
+            valid, state, score = self.environment.apply_action(self.deepcopy(), action)
+            if valid:
+                successors.append(state)
+        return successors

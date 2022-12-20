@@ -157,14 +157,42 @@ class Environment():
                     return True
         return False
 
-    def spawn_tile(self, state, new_game=False):
-        """Spawn a new tile in a random empty space"""
+    def is_terminal(self, state):
+        if self.is_solved(state):
+            return True
+        else:
+            for tile, neighbours in matrix_neighbours(state.board):
+                if tile == 0:
+                    return False
+                for neighbour in neighbours:
+                    if tile == neighbour:
+                        return False
+        return True
+    
+    def get_empty_spaces(self, state):
         # Get a list of all empty spaces
         empty_spaces = []
         for i in range(4):
             for j in range(4):
                 if state.board[i][j] == 0:
                     empty_spaces.append((i, j))
+        return empty_spaces
+
+    def get_possible_spawns(self, state):
+        possible_spawns = []
+        empty_spaces = self.get_empty_spaces(state)
+        for space in empty_spaces:
+            for val in [2, 4]:
+                temp = state.deepcopy()
+                temp.board[space[0]][space[1]] = val
+                possible_spawns.append(temp)
+        return possible_spawns
+
+
+    def spawn_tile(self, state, new_game=False):
+        """Spawn a new tile in a random empty space"""
+        # Get a list of all empty spaces
+        empty_spaces = self.get_empty_spaces(state)
         # Select a random empty space
         new_tile = random.choice(empty_spaces)
         if new_game:
@@ -240,3 +268,30 @@ def _merge_right(row):
         row[0] = 0
         score += row[1] 
     return score
+
+def matrix_neighbours(matrix):
+    """iterate over elements of 4x4 matrix and get its neighbours"""
+    for i in range(4):
+        for j in range(4):
+            if i == 0:
+                if j == 0:
+                    neighbours = [matrix[i][j+1], matrix[i+1][j]]
+                elif j == 3:
+                    neighbours = [matrix[i][j-1], matrix[i+1][j]]
+                else:
+                    neighbours = [matrix[i][j-1], matrix[i][j+1], matrix[i+1][j]]
+            elif i == 3:
+                if j == 0:
+                    neighbours = [matrix[i][j+1], matrix[i-1][j]]
+                elif j == 3:
+                    neighbours = [matrix[i][j-1], matrix[i-1][j]]
+                else:
+                    neighbours = [matrix[i][j-1], matrix[i][j+1], matrix[i-1][j]]
+            else:
+                if j == 0:
+                    neighbours = [matrix[i][j+1], matrix[i-1][j], matrix[i+1][j]]
+                elif j == 3:
+                    neighbours = [matrix[i][j-1], matrix[i-1][j], matrix[i+1][j]]
+                else:
+                    neighbours = [matrix[i][j-1], matrix[i][j+1], matrix[i-1][j], matrix[i+1][j]]
+            yield matrix[i][j], neighbours
