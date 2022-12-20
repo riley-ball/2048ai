@@ -4,6 +4,10 @@ class State():
     def __init__(self, environment, board):
         self.board = board
         self.environment = environment
+        self.score = None
+
+    def update_score(self, score):
+        self.score = score
 
     def __eq__(self, other):
         return self.board == other.board
@@ -20,4 +24,5 @@ class State():
             valid, state, score = self.environment.apply_action(self.deepcopy(), action)
             if valid:
                 successors.append(state)
+        
         return successors

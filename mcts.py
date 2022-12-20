@@ -1,6 +1,7 @@
 import random
 import math
 from constants import *
+from state import State
 
 class Node:
     def __init__(self, state, parent=None):
@@ -46,19 +47,31 @@ def MCTS(env, root, iterations, exploration_parameter):
         while node.children:
             node = node.best_child(exploration_parameter)
         # Expand the leaf node by adding one child node for each possible action
+
+        count = 0
         for action in ACTIONS:
             deepcopy = node.state.deepcopy()
             temp = Node(deepcopy)
-            # print("temp")
-            # env.render(temp.state)
-            v, action_state, s = env.apply_action(temp.state, action)
-            # print(action)
-            # env.render(action_state)
-            for child_state in env.get_possible_spawns(action_state):
-                child_node = Node(child_state, parent=node)
+            valid, action_state, s = env.apply_action(temp.state, action)
+            action_state.update_score(s)
+            if not valid:
+                count += 1
+                continue
+            possible_spawns = env.get_possible_spawns(action_state)
+            if len(possible_spawns) == 0:
+                child_node = Node(action_state, parent=node)
                 node.add_child(child_node)
+            else:
+                for child_state in possible_spawns:
+                    child_state.update_score(s)
+                    child_node = Node(child_state, parent=node)
+                    node.add_child(child_node)
+            
         # Simulate the game from the newly-expanded node to the end
-        result = simulate(env, child_node.state)
+        if count == 4:
+            result = 0
+        else:
+            result = simulate(env, child_node.state)
         # Backpropagate the result up the tree
         while node is not None:
             node.update(result)

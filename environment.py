@@ -2,6 +2,7 @@ from state import State
 from constants import *
 import random
 
+
 class Environment():
     def __init__(self):
         self.board = [[0, 0, 0, 0] for _ in range(4)]
