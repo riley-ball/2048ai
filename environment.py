@@ -152,9 +152,9 @@ class Environment():
         return (valid, new_state, score)
 
     def is_solved(self, state):
-        for i in state.board:
-            for j in state.board:
-                if j == 2048:
+        for x in range(4):
+            for y in range(4):
+                if state.board[x][y] == 256:
                     return True
         return False
 

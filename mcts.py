@@ -24,8 +24,7 @@ class Node:
         # Calculate the UCB1 value for this node, using the given exploration parameter
         if self.visits == 0:
             return float("inf")
-        return (self.wins / self.visits) + exploration_parameter * \
-            (2 * math.log(self.parent.visits) / self.visits) ** 0.5
+        return (self.wins / self.visits) + exploration_parameter * (2 * math.log(self.parent.visits) / self.visits) ** 0.5
     
     def best_child(self, exploration_parameter):
         # Find the child node with the highest UCB1 value

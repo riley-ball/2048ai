@@ -14,6 +14,9 @@ if __name__ == "__main__":
     mcts = MCTS(env, init_node, iterations, exploration)
     env.render(mcts.state)
     score = 0
+
+    # 1688 @ 100, 1488 @ 200
+
     while True:
         mcts = MCTS(env, mcts, iterations, exploration)
         if env.is_terminal(mcts.state):
