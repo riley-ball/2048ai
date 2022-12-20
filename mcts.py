@@ -29,6 +29,14 @@ class Node:
     def best_child(self, exploration_parameter):
         # Find the child node with the highest UCB1 value
         return max(self.children, key=lambda x: x.UCB1(exploration_parameter))
+    
+    def deepcopy(self):
+        # Create a deep copy of this node
+        node = Node(self.state, self.parent)
+        node.visits = self.visits
+        node.wins = self.wins
+        node.children = [child.deepcopy() for child in self.children]
+        return node
 
 def MCTS(env, root, iterations, exploration_parameter):
     # Perform MCTS starting from the given root node, for the given number of iterations
@@ -39,12 +47,18 @@ def MCTS(env, root, iterations, exploration_parameter):
             node = node.best_child(exploration_parameter)
         # Expand the leaf node by adding one child node for each possible action
         for action in ACTIONS:
-            action_state = env.apply_action(node.state, action)
+            deepcopy = node.state.deepcopy()
+            temp = Node(deepcopy)
+            # print("temp")
+            # env.render(temp.state)
+            v, action_state, s = env.apply_action(temp.state, action)
+            # print(action)
+            # env.render(action_state)
             for child_state in env.get_possible_spawns(action_state):
                 child_node = Node(child_state, parent=node)
                 node.add_child(child_node)
         # Simulate the game from the newly-expanded node to the end
-        result = simulate(child_node.state)
+        result = simulate(env, child_node.state)
         # Backpropagate the result up the tree
         while node is not None:
             node.update(result)

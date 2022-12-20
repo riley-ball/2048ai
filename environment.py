@@ -206,6 +206,7 @@ class Environment():
         """Render 2D matrix to terminal"""
         for row in state.board:
             print(row)
+        print("-----------------")
 
 
 def _transpose_2d_list(matrix):

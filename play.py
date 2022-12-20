@@ -2,14 +2,27 @@ from environment import *
 from state import State
 from constants import *
 from agent import Agent
+from mcts import *
 
 if __name__ == "__main__":
     env = Environment()
     state = env.get_init_state()
-    agent = Agent(env)
-    agent.get_states()
-    states = agent.states
-    print(len(states))
+    env.render(state)
+    init_node = Node(state)
+    iterations = 100
+    exploration = 0.5
+    mcts = MCTS(env, init_node, iterations, exploration)
+    env.render(mcts.state)
+    while True:
+        mcts = MCTS(env, mcts, iterations, exploration)
+        if env.is_terminal(mcts.state):
+            print("Game over")
+            break
+        env.render(mcts.state)
+
+
+
+
     # for i in states:
     #     env.render(states[i])
     #     print("-----")
