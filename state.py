@@ -8,7 +8,7 @@ class State():
     def __eq__(self, other):
         return self.board == other.board
 
-    def __hash(self):
+    def __hash__(self):
         return hash(str(self.board))
 
     def deepcopy(self):
