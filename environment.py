@@ -7,7 +7,7 @@ class Environment():
     def __init__(self):
         self.board = [[0, 0, 0, 0] for _ in range(4)]
         self.init_state = State(self, self.board)
-        self.seed = 1234
+        self.seed = 4321
         random.seed(self.seed)
         self.spawn_tile(self.init_state, True)
         self.spawn_tile(self.init_state, True)
@@ -153,7 +153,7 @@ class Environment():
     def is_solved(self, state):
         for x in range(4):
             for y in range(4):
-                if state.board[x][y] == 256:
+                if state.board[x][y] == 512:
                     return True
         return False
 

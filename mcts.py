@@ -75,6 +75,7 @@ def MCTS(env, root, iterations, exploration_parameter):
             node.update(result)
             node = node.parent
     # Return the child node with the most wins
+    best = root.best_child(0)
     return root.best_child(0)
 
 def simulate(env, state):
