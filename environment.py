@@ -4,13 +4,14 @@ import random
 
 
 class Environment():
-    def __init__(self):
+    def __init__(self, seed=4321, goal=2048):
         self.board = [[0, 0, 0, 0] for _ in range(4)]
         self.init_state = State(self, self.board)
-        self.seed = 4321
+        self.seed = seed
         random.seed(self.seed)
         self.spawn_tile(self.init_state, True)
         self.spawn_tile(self.init_state, True)
+        self.goal = goal
 
     def get_init_state(self):
         return self.init_state
@@ -153,7 +154,7 @@ class Environment():
     def is_solved(self, state):
         for x in range(4):
             for y in range(4):
-                if state.board[x][y] == 512:
+                if state.board[x][y] == self.goal:
                     return True
         return False
 
@@ -194,6 +195,8 @@ class Environment():
         # Get a list of all empty spaces
         empty_spaces = self.get_empty_spaces(state)
         # Select a random empty space
+        if not new_game:
+            random.seed(state)
         new_tile = random.choice(empty_spaces)
         if new_game:
             # Spawn a 2 in the empty space

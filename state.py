@@ -15,6 +15,9 @@ class State():
     def __hash__(self):
         return hash(str(self.board))
 
+    def __str__(self):
+        return str(self.board)
+
     def deepcopy(self):
         return State(self.environment, [row[:] for row in self.board])
 
